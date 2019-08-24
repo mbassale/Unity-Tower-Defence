@@ -7,7 +7,8 @@ public class Waypoint : MonoBehaviour
     const int gridSize = 10;
     Vector2Int gridPos;
     Color topColor;
-    bool isExplored;
+    bool isExplored = false;
+    Waypoint exploredFrom = null;
 
     public int GridSize
     {
@@ -36,6 +37,22 @@ public class Waypoint : MonoBehaviour
         set
         {
             isExplored = value;
+            if (isExplored)
+            {
+                TopColor = Color.yellow;
+            }
+        }
+    }
+
+    public Waypoint ExploredFrom
+    {
+        get
+        {
+            return exploredFrom;
+        }
+        set
+        {
+            exploredFrom = value;
         }
     }
 

@@ -10,6 +10,7 @@ public class Pathfinder : MonoBehaviour
 
     Dictionary<Vector2Int, Waypoint> grid = new Dictionary<Vector2Int, Waypoint>();
     Queue<Waypoint> queue = new Queue<Waypoint>();
+    List<Waypoint> path = new List<Waypoint>();
 
     Vector2Int[] directions =
     {
@@ -19,14 +20,17 @@ public class Pathfinder : MonoBehaviour
         Vector2Int.left
     };
 
-    // Start is called before the first frame update
-    void Start()
+    public List<Waypoint> Path
     {
-        LoadBlocks();
-        ColorStartAndEnd();
-        PathFind();
+        get
+        {
+            LoadBlocks();
+            ColorStartAndEnd();
+            PathFind();
+            return path;
+        }
     }
-
+    
     private void PathFind()
     {
         queue.Enqueue(startWaypoint);
@@ -34,16 +38,24 @@ public class Pathfinder : MonoBehaviour
         {
             var searchCenter = queue.Dequeue();
             searchCenter.IsExplored = true;
-            print("SearchCenter: " + searchCenter);
             // Halt if search is the endWaypoint
             if (searchCenter.GridPos == endWaypoint.GridPos)
             {
-                print("End node found.");
                 break;
             }
 
             ExploreNeighbours(searchCenter);
         }
+
+        // build path
+        var waypoint = endWaypoint;
+        path.Add(waypoint);
+        while (waypoint.ExploredFrom)
+        {
+            path.Add(waypoint.ExploredFrom);
+            waypoint = waypoint.ExploredFrom;
+        }
+        path.Reverse();
     }
 
     private void ExploreNeighbours(Waypoint from)
@@ -54,9 +66,9 @@ public class Pathfinder : MonoBehaviour
             if (grid.ContainsKey(explorationCoordinates))
             {
                 var neighbour = grid[explorationCoordinates];
-                neighbour.TopColor = Color.yellow;
-                if (!neighbour.IsExplored)
+                if (!neighbour.IsExplored && !queue.Contains(neighbour))
                 {
+                    neighbour.ExploredFrom = from;
                     queue.Enqueue(neighbour);
                 }
             }
@@ -65,6 +77,7 @@ public class Pathfinder : MonoBehaviour
 
     private void LoadBlocks()
     {
+        path = new List<Waypoint>();
         var waypoints = FindObjectsOfType<Waypoint>();
         foreach (Waypoint waypoint in waypoints)
         {
@@ -85,11 +98,5 @@ public class Pathfinder : MonoBehaviour
     {
         startWaypoint.TopColor = Color.green;
         endWaypoint.TopColor = Color.red;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

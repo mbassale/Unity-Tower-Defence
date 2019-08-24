@@ -5,12 +5,11 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] List<Waypoint> path;
-
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(PrintAllWaypoints());
+        var pathfinder = FindObjectOfType<Pathfinder>();
+        StartCoroutine(PrintAllWaypoints(pathfinder.Path));
     }
 
     // Update is called once per frame
@@ -19,7 +18,7 @@ public class EnemyMovement : MonoBehaviour
      
     }
 
-    private IEnumerator PrintAllWaypoints()
+    private IEnumerator PrintAllWaypoints(List<Waypoint> path)
     {
         foreach (Waypoint waypoint in path)
         {
