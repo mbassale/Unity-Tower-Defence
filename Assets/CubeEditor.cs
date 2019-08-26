@@ -7,7 +7,6 @@ using UnityEngine;
 [RequireComponent(typeof(Waypoint))]
 public class CubeEditor : MonoBehaviour
 {
-    TextMesh textMesh;
     Waypoint waypoint;
 
     void Awake()
@@ -30,9 +29,6 @@ public class CubeEditor : MonoBehaviour
     void UpdateLabel()
     {
         var gridPos = waypoint.GridPos;
-        textMesh = GetComponentInChildren<TextMesh>();
-        string labelText = gridPos.x.ToString() + "," + gridPos.y.ToString();
-        textMesh.text = labelText;
-        gameObject.name = labelText;
+        gameObject.name = gridPos.x.ToString() + "," + gridPos.y.ToString();
     }
 }

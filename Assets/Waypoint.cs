@@ -9,6 +9,9 @@ public class Waypoint : MonoBehaviour
     Color topColor;
     bool isExplored = false;
     Waypoint exploredFrom = null;
+    bool isPlaceable = true;
+
+    [SerializeField] Tower towerPrefab;
 
     public int GridSize
     {
@@ -41,6 +44,18 @@ public class Waypoint : MonoBehaviour
             {
                 TopColor = Color.yellow;
             }
+        }
+    }
+
+    public bool IsPlaceable
+    {
+        get
+        {
+            return isPlaceable;
+        }
+        set
+        {
+            isPlaceable = value;
         }
     }
 
@@ -77,15 +92,11 @@ public class Waypoint : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnMouseOver()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (Input.GetMouseButtonDown(0) && IsPlaceable)
+        {
+            Instantiate(towerPrefab, gameObject.transform.position, Quaternion.identity);
+        }
     }
 }

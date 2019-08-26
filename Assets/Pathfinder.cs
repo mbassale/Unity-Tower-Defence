@@ -52,11 +52,13 @@ public class Pathfinder : MonoBehaviour
 
         // build path
         var waypoint = endWaypoint;
+        waypoint.IsPlaceable = false;
         path.Add(waypoint);
         while (waypoint.ExploredFrom)
         {
             path.Add(waypoint.ExploredFrom);
             waypoint = waypoint.ExploredFrom;
+            waypoint.IsPlaceable = false;
         }
         path.Reverse();
     }
