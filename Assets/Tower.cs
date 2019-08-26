@@ -1,17 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
     [SerializeField] Transform objectToPan;
-    [SerializeField] Transform targetEnemy;
     [SerializeField] float attackRange = 10f;
     [SerializeField] ParticleSystem projectileParticle;
+
+    Transform targetEnemy;
 
     // Update is called once per frame
     void Update()
     {
+        FindTargetEnemy();
         if (targetEnemy)
         {
             objectToPan.LookAt(targetEnemy);
@@ -21,6 +24,23 @@ public class Tower : MonoBehaviour
         {
             Shoot(false);
         }
+    }
+
+    private void FindTargetEnemy()
+    {
+        var enemies = FindObjectsOfType<EnemyDamage>();
+        float closestDistance = float.MaxValue;
+        Transform closestEnemy = null;
+        foreach (EnemyDamage enemy in enemies)
+        {
+            float distance = Vector3.Distance(gameObject.transform.position, enemy.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestEnemy = enemy.transform;
+            }
+        }
+        targetEnemy = closestEnemy;
     }
 
     void FireAtEnemy()
