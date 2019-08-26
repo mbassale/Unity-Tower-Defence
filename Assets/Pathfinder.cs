@@ -24,9 +24,12 @@ public class Pathfinder : MonoBehaviour
     {
         get
         {
-            LoadBlocks();
-            ColorStartAndEnd();
-            PathFind();
+            if (path.Count == 0)
+            {
+                LoadBlocks();
+                ColorStartAndEnd();
+                PathFind();
+            }
             return path;
         }
     }

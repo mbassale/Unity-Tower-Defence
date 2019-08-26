@@ -14,7 +14,6 @@ public class EnemyDamage : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        print("I'm hit");
         ProcessHit();
     }
 
