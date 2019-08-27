@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
+    [SerializeField] float movementPeriod = 1f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +25,7 @@ public class EnemyMovement : MonoBehaviour
         foreach (Waypoint waypoint in path)
         {
             transform.position = waypoint.transform.position;
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(movementPeriod);
         }
     }
 }
