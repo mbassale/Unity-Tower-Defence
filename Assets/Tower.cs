@@ -10,6 +10,19 @@ public class Tower : MonoBehaviour
     [SerializeField] ParticleSystem projectileParticle;
 
     Transform targetEnemy;
+    Waypoint waypoint;
+
+    public Waypoint Waypoint
+    {
+        get
+        {
+            return waypoint;
+        }
+        set
+        {
+            waypoint = value;
+        }
+    }
 
     // Update is called once per frame
     void Update()
