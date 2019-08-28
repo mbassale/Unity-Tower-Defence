@@ -7,6 +7,7 @@ public class EnemyDamage : MonoBehaviour
     [SerializeField] int hitPoints = 10;
     [SerializeField] ParticleSystem hitParticlePrefab;
     [SerializeField] ParticleSystem deathParticlePrefab;
+    [SerializeField] AudioClip pewSFX;
     [SerializeField] AudioClip deathSFX;
 
     // Start is called before the first frame update
@@ -25,6 +26,7 @@ public class EnemyDamage : MonoBehaviour
         if (hitParticlePrefab)
         {
             hitParticlePrefab.Play();
+            GetComponent<AudioSource>().PlayOneShot(pewSFX);
         }
         hitPoints = hitPoints - 1;
         if (hitPoints < 1)
@@ -40,7 +42,7 @@ public class EnemyDamage : MonoBehaviour
             var vfx = Instantiate(deathParticlePrefab, transform.position, Quaternion.identity);
             vfx.Play();
             float destroyDelay = vfx.main.duration;
-            GetComponent<AudioSource>().PlayOneShot(deathSFX);
+            AudioSource.PlayClipAtPoint(deathSFX, Camera.main.transform.position);
             Destroy(vfx.gameObject, destroyDelay);
         }
         Destroy(gameObject);

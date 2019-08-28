@@ -8,7 +8,6 @@ public class Tower : MonoBehaviour
     [SerializeField] Transform objectToPan;
     [SerializeField] float attackRange = 10f;
     [SerializeField] ParticleSystem projectileParticle;
-    [SerializeField] AudioClip pewSFX;
 
     Transform targetEnemy;
     Waypoint waypoint;
@@ -73,10 +72,5 @@ public class Tower : MonoBehaviour
     {
         var emissionModule = projectileParticle.emission;
         emissionModule.enabled = isActive;
-        var audioSource = GetComponent<AudioSource>();
-        if (audioSource && !audioSource.isPlaying)
-        {
-            audioSource.PlayOneShot(pewSFX);
-        }
     }
 }
